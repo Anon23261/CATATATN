@@ -68,15 +68,24 @@ class CATATN:
     # -------------------------------
     # 3. Facial Recognition System
     # -------------------------------
+    def detect_emotions(self, frame):
+        """Detect emotions from the frame using a pre-trained model."""
+        # Placeholder for emotion detection logic
+        # emotion_model = load_emotion_model()  # Load your emotion detection model
+        # emotions = emotion_model.predict(frame)  # Predict emotions
+        return "happy"  # Example emotion
+
     def detect_faces(self):
-        """Detect and recognize faces using webcam."""
+        """Detect faces and recognize emotions using webcam."""
         cap = cv2.VideoCapture(0)
         while True:
             ret, frame = cap.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             faces = self.face_cascade.detectMultiScale(gray, 1.1, 4)
             for (x, y, w, h) in faces:
-                cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+                emotion = self.detect_emotions(frame[y:y+h, x:x+w])
+                self.speak(f"You look {emotion}!")  # Respond based on detected emotion
             cv2.imshow('CATATN - Facial Recognition', frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
